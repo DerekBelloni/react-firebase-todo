@@ -41,7 +41,7 @@ function App() {
       <ul>
         {todos.map(todo => (
           <Todo
-            todo={todo}
+            text={todo}
           />
         ))}
 
