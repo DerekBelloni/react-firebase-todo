@@ -7,6 +7,7 @@ function App() {
 
 
   const addTodo = (event) => {
+    event.preventDefault()
     console.log('the input is:', input)
     setTodos(prevTodos => [
       ...prevTodos,
@@ -21,11 +22,13 @@ function App() {
     <div className="App">
 
       <h1>Hello World!</h1>
-      <input
-        value={input}
-        onChange={event => setInput(event.target.value)}
-      />
-      <button onClick={addTodo}>Add Todo</button>
+      <form onSubmit={addTodo}>
+        <input
+          value={input}
+          onChange={event => setInput(event.target.value)}
+        />
+        <button type="submit" onClick={addTodo}>Add Todo</button>
+      </form>
       <ul>
         {todos.map(todo => (
           <li>{todo}</li>
