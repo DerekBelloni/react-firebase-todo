@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
+import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
 import './Todo.css'
 
 const Todo = (props) => {

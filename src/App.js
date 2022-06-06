@@ -2,24 +2,30 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Button, FormControl, InputLabel, Input } from '@mui/material'
 import Todo from "./Todo";
+import { db } from './firebase'
+import firebase from "firebase";
 
 function App() {
-  const [todos, setTodos] = useState(['Go to gym', 'Wash the car', 'Keep learning React'])
+  const [todos, setTodos] = useState([])
   const [input, setInput] = useState('')
 
 
   const addTodo = (event) => {
     event.preventDefault()
-    console.log('the input is:', input)
-    setTodos(prevTodos => [
-      ...prevTodos,
-      input
-    ])
+    db.collection('todos').add({
+      text: input,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+
     setInput('')
   }
 
-
-
+  useEffect(() => {
+    db.collection('todos').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+      console.log("grabbing snapshot from firebase", snapshot.docs.map(doc => doc.data()))
+      setTodos(snapshot.docs.map(doc => doc.data().text))
+    })
+  }, [])
 
   return (
     <div className="App">
