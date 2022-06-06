@@ -23,8 +23,10 @@ function App() {
   useEffect(() => {
     db.collection('todos').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
       console.log("grabbing snapshot from firebase", snapshot.docs.map(doc => doc.data()))
-      setTodos(snapshot.docs.map(doc => doc.data().text))
+      setTodos(snapshot.docs.map(doc => ({ id: doc.id, text: doc.data().text })))
+
     })
+    console.log("[todo object with id]", todos)
   }, [])
 
   return (
@@ -47,7 +49,7 @@ function App() {
       <ul>
         {todos.map(todo => (
           <Todo
-            text={todo}
+            todo={todo}
           />
         ))}
 

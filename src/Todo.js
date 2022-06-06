@@ -1,6 +1,9 @@
 import React from 'react';
-import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
+import { Button, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
 import './Todo.css'
+import { db } from './firebase'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
 
 const Todo = (props) => {
   return (
@@ -8,9 +11,9 @@ const Todo = (props) => {
       <ListItem>
         <ListItemAvatar>
         </ListItemAvatar>
-        <ListItemText primary={props.text} secondary="Dummy deadline" ></ListItemText>
+        <ListItemText primary={props.todo.text} secondary="Dummy deadline" ></ListItemText>
       </ListItem>
-
+      <DeleteForeverIcon onClick={event => { db.collection('todos').doc(props.todo.id).delete() }} />
     </List>
   );
 }
