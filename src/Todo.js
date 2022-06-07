@@ -6,19 +6,9 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Modal, Button } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const useStyles = makeStyles((theme) => ({
-//   paper: {
-//     position: 'absolute',
-//     width: 400,
-//     backgroundColor: theme.palette.background.paper,
-//     border: '2px solid #000',
-//     boxShadow: theme.shadows[5],
-//     padding: theme.spacing(2, 4, 3)
-//   }
-// }))
 
 const Todo = (props) => {
-
+  const [input, setInput] = useState('')
   const [show, setShow] = useState(false)
 
   const handleOpen = () => setShow(true)
@@ -26,18 +16,27 @@ const Todo = (props) => {
   const handleClose = () => setShow(false)
 
   const updateTodo = () => {
+    db.collection('todos').doc(props.todo.id).set({
+      text: input
+    }, { merge: true })
     setShow(false)
   }
   return (
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Heading Text</Modal.Title>
+          <Modal.Title>Edit Todo</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Modal content will sit here</Modal.Body>
+        <Modal.Body>
+          <input
+            placeholder={props.todo.text}
+            value={input}
+            onChange={event => setInput(event.target.value)}
+            type="text" />
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Close</Button>
-          <Button variant="primary" onClick={handleClose}>Submit</Button>
+          <Button variant="primary" onClick={updateTodo}>Submit</Button>
         </Modal.Footer>
         <Button
           className="btn btn-primary mb-4 m-4"
